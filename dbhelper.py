@@ -11,7 +11,7 @@ class DBHelper:
 	def get_all_inputs(self):
 		connection = self.connect()
 		try:
-			query = "SELECT description FROM crimes;"
+			query = "SELECT description FROM cars;"
 			with connection.cursor() as cursor:
 				cursor.execute(query)
 			return cursor.fetchall()
@@ -23,7 +23,7 @@ class DBHelper:
 		try:
 			# The following introduces a deliberate security flaw.
 			See section on SQL injection below
-			query = "INSERT INTO crimes (description) VALUES
+			query = "INSERT INTO car (description) VALUES
 			('{}');".format(data)
 			with connection.cursor() as cursor:
 				cursor.execute(query)
@@ -34,7 +34,7 @@ class DBHelper:
 	def clear_all(self):
 		connection = self.connect()
 		try:
-			query = "DELETE FROM crimes;"
+			query = "DELETE FROM cars;"
 			with connection.cursor() as cursor:
 				cursor.execute(query)
 				connection.commit()
