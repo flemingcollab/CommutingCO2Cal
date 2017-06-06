@@ -5,9 +5,9 @@ connection = pymysql.connect(host='localhost',
                              passwd=dbconfig.db_password)
 try:
     with connection.cursor() as cursor:
-        sql = "CREATE DATABASE IF NOT EXISTS crimemap"
+        sql = "CREATE DATABASE IF NOT EXISTS map"
         cursor.execute(sql)
-        sql = """CREATE TABLE IF NOT EXISTS crimemap.crimes (
+        sql = """CREATE TABLE IF NOT EXISTS map.car (
 id int NOT NULL AUTO_INCREMENT,
 latitude FLOAT(10,6),
 longitude FLOAT(10,6),
