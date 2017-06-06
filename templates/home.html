@@ -1,17 +1,134 @@
+<!DOCTYPE html>
 <html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Commuting GHGs Emissions Calculator</title>
+    <style>
+      #map {
+			height: 800px;
+			width: 500%;
+			background-color:white;
+			
+			}
+	  h3 {
+			color: black;
+			font-family: verdana;
+			font-size: 24px;
+			text-align: center;
+			}
+    </style>
+  </head>
+  
+  <body>
+	<h3>Commuting GHGs Emissions Calculator</h3>
+    <div id="map"></div>
+    <script type="text/javascript">
+
+      function initialize() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          mapTypeId: google.maps.MapTypeId.ROADMAP,
+          center: new google.maps.LatLng(44.340058,-78.745051),
+          zoom: 14
+        });
+
+        var infoWindow = new google.maps.InfoWindow();
+
+        var directionsDisplay = new google.maps.DirectionsRenderer();
+        directionsDisplay.setMap(map);
+        directionsDisplay.setPanel(document.getElementById('map'));
+
+        var directionsService = new google.maps.DirectionsService();
+
+        var layer = new google.maps.FusionTablesLayer({
+          query: {
+            select: 'Location',
+            from: '1ywbkgFrWL0fL2jn8jaS5mVhCeFbXBpmPJzegTskv'
+          },
+          map: map,
+          options: {
+            suppressInfoWindows: true
+          }
+        });
+
+        // Add a click listener to the layer that creates a new infowindow
+        // with directions text input
+        google.maps.event.addListener(layer, 'click', function(e) {
+          infoWindow.setContent(e.infoWindowHtml +
+              '<br><label>Get Directions to here:</label> ' +
+              '<input type="text" id="begin">' +
+              '<input type="button" value="go" id="go">');
+          infoWindow.setPosition(e.latLng);
+          infoWindow.open(map);
+
+          google.maps.event.addDomListener(document.getElementById('go'),
+              'click', function() {
+                var start = document.getElementById('begin').value;
+
+                var request = {
+                  origin: start,
+                  destination: e.latLng,
+                  travelMode: google.maps.DirectionsTravelMode.DRIVING
+                };
+                directionsService.route(request, function(response, status) {
+                  if (status == google.maps.DirectionsStatus.OK) {
+                    directionsDisplay.setDirections(response);
+                  } else {
+                    window.alert('Error generating directions: ' + status);
+                  }
+                });
+          });
+        });
+      }
+
+      google.maps.event.addDomListener(window, 'load', initialize);
+
+      
 <body>
-	<head>
-		<title>Crime Map</title>
-	</head>
-	
-	<h1>Crime Map</h1>
-	<form action="/add" method="POST">
-		<input type="text" name="userinput">
-		<input type="submit" value="Submit">
-		</form>
-	<a href="/clear">clear</a>
-	{% for userinput in data %}
-		<p>{{userinput}}</p>
-		{% endfor %}
-</body>
+  <h3>Address</h3>
+  <form action="/add" method="POST">
+    <input type="text" name="userinput">
+    <input type="submit" value="Submit">
+    </form>
+  <a href="/clear">clear</a>
+  {% for userinput in data %}
+    <p>{{userinput}}</p>
+    {% endfor %}
+    </script>
+    
+    <h3>Car Make</h3>
+  <form action="/add" method="POST">
+    <input type="text" name="userinput">
+    <input type="submit" value="Submit">
+    </form>
+  <a href="/clear">clear</a>
+  {% for userinput in data %}
+    <p>{{userinput}}</p>
+    {% endfor %} 
+
+      <h3>Car Type</h3>
+  <form action="/add" method="POST">
+    <input type="text" name="userinput">
+    <input type="submit" value="Submit">
+    </form>
+  <a href="/clear">clear</a>
+  {% for userinput in data %}
+    <p>{{userinput}}</p>
+    {% endfor %}
+
+      <h3>Year of Production</h3>
+  <form action="/add" method="POST">
+    <input type="text" name="userinput">
+    <input type="submit" value="Submit">
+    </form>
+  <a href="/clear">clear</a>
+  {% for userinput in data %}
+    <p>{{userinput}}</p>
+    {% endfor %}
+   
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBQi_XDMWxYYaogyFJXJ-otXQQ2O1JjW0&callback=initMap">
+    </script>
+  </body>
 </html>
